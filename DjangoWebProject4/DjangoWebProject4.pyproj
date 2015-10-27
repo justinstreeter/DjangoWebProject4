@@ -55,7 +55,9 @@
     <Folder Include="DjangoWebProject4\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\static\app\scripts\progress.js" />
     <Content Include="app\templates\app\detail.html" />
+    <Content Include="app\templates\app\new_poll.html" />
     <Content Include="app\templates\app\results.html" />
     <Content Include="requirements.txt" />
     <Content Include="db.sqlite3" />

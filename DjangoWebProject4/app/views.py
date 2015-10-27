@@ -9,6 +9,7 @@ from django.http import HttpRequest
 from django.template import RequestContext
 from datetime import datetime
 from app.models import Poll, Choice 
+from django import template
 
 
 def contact(request):
@@ -43,12 +44,15 @@ def vote(request, poll_id):
     p = get_object_or_404(Poll, pk=poll_id)
     try:
         selected_choice = p.choice_set.get(pk=request.POST['choice'])
+  
+
     except (KeyError, Choice.DoesNotExist):
-        return render(request, 'app/detail.html', { 
+        return render(request, 'app/index.html', { 
             'poll': p, 
             'error_message': "You didnt select a choice.", 
         })
     else:
         selected_choice.votes += 1
         selected_choice.save()
-        return HttpResponseRedirect(reverse('results', args=(p.id,)))
+
+        return HttpResponseRedirect(reverse('index'))

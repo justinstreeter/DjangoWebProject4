@@ -3,6 +3,7 @@ Definition of models.
 """
 
 from django.db import models
+from django import template
 
 # Create your models here.
 
@@ -20,4 +21,5 @@ class Choice(models.Model):
     votes = models.IntegerField(default=0)
     
     def __unicode__(self):
-        return self.choice_text   
+        return self.choice_text
+    

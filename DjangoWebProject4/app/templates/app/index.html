@@ -29,15 +29,55 @@
         <p><a class="btn btn-default" href="http://azure.microsoft.com">Learn more &raquo;</a></p>
     </div>
 </div>
-
+<div class="row">
 {% if latest_poll_list %}
-    <ul>
-        {% for poll in latest_poll_list %}
-        <li><a href="{% url 'detail' poll.id %}">{{ poll.question }}</a></li>
-        {% endfor %}
-    </ul>
+    {% for poll in latest_poll_list %}
+<div class="col-md-4">
+    <div class="panel panel-primary">
+         <div class="panel-heading" style="margin-bottom: 15px;">
+<h1 class="panel-title">{{ poll.question }}</h1>
+                        </div>
+{% if error_message %}<p><strong>{{ error_massage }}</strong></p>{% endif %}
+<form action="{% url 'vote' poll.id %}" method="post">
+{% csrf_token %}
+    {% for choice in poll.choice_set.all %}
+    <div class="buttons" style="margin: 10px;">
+        <h3><button type="submit" class="btn btn-success" style="" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}"> {{ choice.choice_text }} </button></h3>
+  <div class="progress">
+  <div class="progress-bar" id="choice{{ forloop.counter }}" role="progressbar" aria-valuenow="{{ choice.votes }}" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: {{ choice.votes }}%;">
+    {{choice.votes}}%
+  </div>
+</div>
+    </div>
+    {% endfor %}
+        <!--<input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
+        <label for="choice{{ forloop.counter }}">{{ choice.choice_text }} -- {{ choice.votes }} vote{{ choice.votes|pluralize }}</label><br />-->
+    
+    <!-- <div class="panel-footer text-center" style="margin-top: 20px;">
+                    <input type="submit" style="width:100%;" value="Vote" class="btn btn-primary btn-lg"/>
+       </div> -->            
+    </form>
+            </div>
+
+<!--<input type="submit" value="Vote" />-->
+    </div>
+ {% endfor %}
     {% else %}
     <p>No polls are available.</p>
     {% endif %}
+    </div>
 
+<!--
+<div class="row">
+    <h2>Polls</h2>
+{% if latest_poll_list %}
+        {% for poll in latest_poll_list %}
+        <div class="col-md-4">
+        <h2><a href="{% url 'detail' poll.id %}">{{ poll.question }}</a></h2>
+        </div>
+        {% endfor %}
+    {% else %}
+    <p>No polls are available.</p>
+    {% endif %}
+</div>-->
 {% endblock %}
